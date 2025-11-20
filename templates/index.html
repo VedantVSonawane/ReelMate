@@ -60,10 +60,27 @@
                 <div class="movie-card" data-genres="{{ movie.genres }}">
                     <input type="checkbox" id="movie-{{ movie.id }}" name="movie_ids" value="{{ movie.id }}">
                     <label for="movie-{{ movie.id }}">
-                        <div class="poster-wrapper">
-                            <img src="{{ movie.poster_url }}" alt="{{ movie.title }}" loading="lazy">
-                            <div class="card-overlay">
-                                <h3>{{ movie.title }}</h3>
+                        <div class="poster-wrapper" onclick="event.preventDefault(); this.classList.toggle('flipped');">
+                            <div class="card-front">
+                                <img src="{{ movie.poster_url }}" alt="{{ movie.title }}" loading="lazy">
+                                <div class="card-overlay">
+                                    <h3>{{ movie.title }}</h3>
+                                    <div class="movie-meta">
+                                        <span class="year-badge">{{ movie.year }}</span>
+                                        {% if movie.genres %}
+                                        <span class="genre-badge">{{ movie.genres.split('|')[0] }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <span class="info-hint"><i class="fa-solid fa-info-circle"></i> Tap for info</span>
+                                </div>
+                            </div>
+                            <div class="card-back">
+                                <div class="synopsis">
+                                    <h4>{{ movie.title }} ({{ movie.year }})</h4>
+                                    <p class="genres-list">{{ movie.genres.replace('|', ' • ') }}</p>
+                                    <p class="description">{{ movie.description[:200] }}...</p>
+                                    <span class="tap-hint"><i class="fa-solid fa-times"></i> Tap to close</span>
+                                </div>
                             </div>
                         </div>
                     </label>
