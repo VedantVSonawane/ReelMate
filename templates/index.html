@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-blob"></div>
+    <h2>Stop Scrolling, Start <span class="typing-text" id="typewriter">Watching</span></h2>
+    <p>Your AI-powered movie companion that gets your vibe.</p>
+    <button class="btn-cta" onclick="document.getElementById('onboarding').scrollIntoView({behavior: 'smooth'})">Find
+        Your ReelMate</button>
+</section>
+
+<!-- Onboarding / Taste Test -->
+<section id="onboarding" class="onboarding-section">
+    <form action="/recommend" method="POST">
+        <!-- Step 1: Mood -->
+        <div class="step">
+            <span class="step-title">Step 1: The Vibe</span>
+            <h3 class="section-heading">How are you feeling?</h3>
+
+            <div class="mood-grid">
+                <div class="mood-option">
+                    <input type="radio" name="mood" id="mood-think" value="think">
+                    <label for="mood-think">
+                        <i class="fa-solid fa-brain"></i>
+                        <span>Make Me Think</span>
+                    </label>
+                </div>
+                <div class="mood-option">
+                    <input type="radio" name="mood" id="mood-laugh" value="laugh">
+                    <label for="mood-laugh">
+                        <i class="fa-solid fa-face-laugh-squint"></i>
+                        <span>Make Me Laugh</span>
+                    </label>
+                </div>
+                <div class="mood-option">
+                    <input type="radio" name="mood" id="mood-cry" value="cry">
+                    <label for="mood-cry">
+                        <i class="fa-solid fa-heart-crack"></i>
+                        <span>Make Me Cry</span>
+                    </label>
+                </div>
+                <div class="mood-option">
+                    <input type="radio" name="mood" id="mood-chill" value="chill">
+                    <label for="mood-chill">
+                        <i class="fa-solid fa-couch"></i>
+                        <span>Brain Off</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Favorites -->
+        <div class="step">
+            <span class="step-title">Step 2: The Taste Test</span>
+            <h3 class="section-heading">Pick movies you like</h3>
+
+            <div class="movie-grid" id="movie-grid">
+                {% for movie in movies %}
+                <div class="movie-card" data-genres="{{ movie.genres }}">
+                    <input type="checkbox" id="movie-{{ movie.id }}" name="movie_ids" value="{{ movie.id }}">
+                    <label for="movie-{{ movie.id }}">
+                        <div class="poster-wrapper">
+                            <img src="{{ movie.poster_url }}" alt="{{ movie.title }}" loading="lazy">
+                            <div class="card-overlay">
+                                <h3>{{ movie.title }}</h3>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="actions" style="position: sticky; bottom: 20px; margin-top: 40px;">
+            <button type="submit" class="btn-cta" style="width: 100%; max-width: 400px;">Meet Your ReelMate <i
+                    class="fa-solid fa-arrow-right"></i></button>
+        </div>
+    </form>
+</section>
+
+<script>
+    // Typewriter Effect
+    const words = ["Binging", "Chilling", "Fangirling", "Simping", "Watching"];
+    let i = 0;
+    const el = document.getElementById('typewriter');
+
+    setInterval(() => {
+        el.style.opacity = 0;
+        setTimeout(() => {
+            i = (i + 1) % words.length;
+            el.innerText = words[i];
+            el.style.opacity = 1;
+        }, 500);
+    }, 3000);
+</script>
+{% endblock %}

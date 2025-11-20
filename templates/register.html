@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="max-width: 400px; margin-top: 80px;">
+    <div class="onboarding-section" style="text-align: center;">
+        <h2 class="section-heading">Join ReelMate</h2>
+        <p style="color: var(--text-muted); margin-bottom: 30px;">Create an account to save your gems.</p>
+
+        <form action="/register" method="POST">
+            <div style="margin-bottom: 20px; text-align: left;">
+                <label style="display: block; margin-bottom: 8px; color: var(--accent-cyan);">Username</label>
+                <input type="text" name="username" required
+                    style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--glass-border); color: white; border-radius: 8px;">
+            </div>
+
+            <div style="margin-bottom: 30px; text-align: left;">
+                <label style="display: block; margin-bottom: 8px; color: var(--accent-cyan);">Password</label>
+                <input type="password" name="password" required
+                    style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--glass-border); color: white; border-radius: 8px;">
+            </div>
+
+            <button type="submit" class="btn-cta" style="width: 100%;">Sign Up</button>
+        </form>
+
+        <p style="margin-top: 20px; font-size: 0.9rem;">
+            Already have an account? <a href="/login" style="color: var(--accent-pink);">Login</a>
+        </p>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div style="margin-top: 20px; color: var(--accent-pink);">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+</div>
+{% endblock %}

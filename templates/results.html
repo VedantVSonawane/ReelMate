@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="chat-interface">
+    <!-- AI Message -->
+    <div class="ai-message">
+        <div class="ai-avatar">
+            <i class="fa-solid fa-robot"></i>
+        </div>
+        <div class="ai-bubble">
+            <h2>ReelMate Found Gems! 🔥</h2>
+            <p>Based on your vibe, I've curated this list just for you. We've got some absolute bangers here.</p>
+        </div>
+    </div>
+
+    <!-- Feed -->
+    <div class="rec-feed">
+        {% for movie in recommendations %}
+        <div class="rec-card">
+            <div class="rec-poster">
+                <img src="{{ movie.poster_url }}" alt="{{ movie.title }}">
+            </div>
+            <div class="rec-content">
+                <div class="rec-header">
+                    <div class="rec-title">
+                        <h3>{{ movie.title }}</h3>
+                        <span class="rec-year">{{ movie.year }}</span>
+                        <div class="hype-meter">
+                            {% for i in range(movie.hype_rating) %}
+                            <i class="fa-solid fa-fire"></i>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="rec-score">
+                        <span class="score-badge">{{ "%.0f"|format(movie.score * 100) }}% Match</span>
+                    </div>
+                </div>
+
+                <div class="ai-snippet">
+                    <span class="ai-label">ReelMate Says:</span>
+                    "{{ movie.explanation }}"
+                </div>
+
+                <div class="tags">
+                    {% for genre in movie.genres.split('|') %}
+                    <span class="tag">{{ genre }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="platforms">
+                    {% for platform in movie.platforms.split('|') %}
+                    <div class="platform-badge">{{ platform }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div style="text-align: center; margin-top: 60px; margin-bottom: 40px;">
+        <a href="/" class="btn-cta" style="font-size: 1rem; padding: 12px 30px;">Start New Search</a>
+    </div>
+</div>
+
+
+{% endblock %}
