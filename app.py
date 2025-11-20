@@ -112,10 +112,26 @@ if __name__ == '__main__':
             seed_db()
     app.run(debug=True)
 else:
-    # Production mode (Gunicorn)
+    # Production mode (Gunicorn) - Initialize DB on import
     with app.app_context():
-        db.create_all()
-        # Auto-seed if empty
-        if not Movie.query.first():
-            from seed_data import seed_db
-            seed_db()
+        try:
+            db.create_all()
+            # Auto-seed if empty
+            if not Movie.query.first():
+                print("Database is empty, seeding with initial movies...")
+                from seed_data import INITIAL_MOVIES
+                for m in INITIAL_MOVIES:
+                    movie = Movie(
+                        tmdb_id=m['tmdb_id'],
+                        title=m['title'],
+                        year=m['year'],
+                        genres=m['genres'],
+                        overview=m['overview'],
+                        poster_url=m['poster_url'],
+                        platforms=m['platforms']
+                    )
+                    db.session.add(movie)
+                db.session.commit()
+                print(f"Successfully seeded {len(INITIAL_MOVIES)} movies!")
+        except Exception as e:
+            print(f"Error initializing database: {e}")
