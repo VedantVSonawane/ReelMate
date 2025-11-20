@@ -14,6 +14,7 @@
     </div>
 
     <!-- Feed -->
+    {% if recommendations %}
     <div class="rec-feed">
         {% for movie in recommendations %}
         <div class="rec-card">
@@ -56,11 +57,17 @@
         </div>
         {% endfor %}
     </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fa-solid fa-film"></i>
+        <h3>No Matches Found</h3>
+        <p>Hmm, couldn't find the perfect match this time. Try selecting different movies or changing your mood!</p>
+    </div>
+    {% endif %}
 
     <div style="text-align: center; margin-top: 60px; margin-bottom: 40px;">
         <a href="/" class="btn-cta" style="font-size: 1rem; padding: 12px 30px;">Start New Search</a>
     </div>
 </div>
-
 
 {% endblock %}
